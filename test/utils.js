@@ -20,4 +20,22 @@ describe("Find longest common path", function() {
         res = utils.findLongestCommonPath(_input);
         expect(res).to.be.a('null');
     });
+
+    it("if input is not an array of string, return null", function() {
+        _input = [null, 'go.BP.id', 'go.BP.pubmed'];
+        res = utils.findLongestCommonPath(_input);
+        expect(res).to.be.a('null');
+    });
+
+    it("if input array is empty, return null", function() {
+        _input = [];
+        res = utils.findLongestCommonPath(_input);
+        expect(res).to.be.a('null');
+    });
+
+    it("if input array only has one string element, return that string", function() {
+        _input = ['go.BP.id'];
+        res = utils.findLongestCommonPath(_input);
+        expect(res).equals(_input[0]);
+    });
 })
