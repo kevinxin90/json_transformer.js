@@ -4,7 +4,9 @@
   "description": "a nodejs module to transform json output based on template",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha",
+    "cover": "istanbul cover _mocha",
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,7 @@
   },
   "homepage": "https://github.com/kevinxin90/json_transformer.js#readme",
   "devDependencies": {
+    "chai": "^4.2.0",
     "coveralls": "^3.0.9",
     "istanbul": "^0.4.5",
     "mocha": "^6.2.2",
