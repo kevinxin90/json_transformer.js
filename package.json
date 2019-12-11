@@ -1,0 +1,31 @@
+{
+  "name": "@biothings_explorer/json_transformer",
+  "version": "0.0.1",
+  "description": "a nodejs module to transform json output based on template",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinxin90/json_transformer.js.git"
+  },
+  "keywords": [
+    "json",
+    "transform",
+    "template",
+    "api"
+  ],
+  "author": "jiwen xin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kevinxin90/json_transformer.js/issues"
+  },
+  "homepage": "https://github.com/kevinxin90/json_transformer.js#readme",
+  "devDependencies": {
+    "coveralls": "^3.0.9",
+    "istanbul": "^0.4.5",
+    "mocha": "^6.2.2",
+    "mocha-lcov-reporter": "^1.3.0"
+  }
+}
