@@ -1,3 +1,6 @@
+const jsonata = require("jsonata");
+const _ = require("lodash");
+
 /**
  * find the longest common path given an array of paths
  * @param {Array} paths - an array of paths (e.g. go.BP.id)
@@ -41,4 +44,30 @@ function findLongestCommonPath(paths) {
     }
 }
 
+/**
+ * Transform a single JSON object based on the template
+ * @param {object} json_doc - the JSON object to be transformed
+ * @param {object} template - the template on which the transform is based
+ * @returns {object} - the transformed json object
+ */
+function transformSingleObject(json_doc, template) {
+    let new_doc = {};
+    let val;
+    let expression;
+    for (let [key, value] of Object.entries(template)) {
+        if (_.isString(value)) {
+            expression = jsonata(value);
+            val = [expression.evaluate(json_doc)];
+        } else if (_.isArray(value)) {
+            val = value.map(element => jsonata(element).evaluate(json_doc));
+        }
+        val = val.filter(item => !(_.isUndefined(item)));
+        if (_.isEmpty(val)) continue;
+        if(val.length === 1) val = val[0];
+        new_doc[key] = val;
+    }
+    return new_doc;
+}
+
 exports.findLongestCommonPath = findLongestCommonPath;
+exports.transformSingleObject = transformSingleObject;
