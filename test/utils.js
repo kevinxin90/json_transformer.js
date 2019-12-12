@@ -104,4 +104,18 @@ describe('Tranform a single object', function() {
         let res = utils.transformSingleObject(json_doc, template);
         expect(res).to.be.an('object').to.deep.equal({gene: 1017, protein: '1018'});
     })
+
+    it('return empty object if json doc and template does not match at all', function() {
+        let json_doc = {'ensembl': {'gene': 1017}, 'protein1': '1018'};
+        let template = {'gene': "ensembl.protein", 'protein': "protein2"};
+        let res = utils.transformSingleObject(json_doc, template);
+        expect(res).to.be.an('object').that.is.empty;
+    })
+
+    it('test if the value of the template key is an array', function() {
+        let json_doc = {'ensembl': {'gene': 1017}, 'protein1': '1018', 'protein2': '1019'};
+        let template = {'gene': "ensembl.gene", 'protein': ["protein2", "protein1"]};
+        let res = utils.transformSingleObject(json_doc, template);
+        expect(res).to.be.an('object').to.deep.equal({gene: 1017, protein:['1019', '1018']});
+    })
 })
