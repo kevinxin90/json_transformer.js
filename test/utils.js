@@ -169,7 +169,19 @@ describe("remove common path from template", function() {
         let res = utils.removeCommonPathFromTemplate(template, common_path);
         expect(res).to.be.an('object').to.deep.equal(template);
     })
+})
 
+describe("test extract paths from template", () => {
+    it("test if template is a simple object", () => {
+        let template = {'gene': "ensembl.gene.id", 'transcript': "ensembl.transcript"};
+        let res = utils.extractPathsFromTemplate(template);
+        expect(res).to.be.an("array").of.length(2).to.include('ensembl.gene.id', 'ensembl.transcript');
+    })
 
-
+    it("test if the values of template contains array", () => {
+        let template = {'gene': ["ensembl.gene.id", 'uniprot.gene'], 'transcript': "ensembl.transcript"};
+        let res = utils.extractPathsFromTemplate(template);
+        expect(res).to.be.an("array").of.length(3).to.include('ensembl.gene.id', 'uniprot.gene', 'ensembl.transcript');
+        
+    })
 })

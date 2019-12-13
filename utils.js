@@ -2,8 +2,21 @@ const jsonata = require("jsonata");
 const _ = require("lodash");
 
 /**
+ * Extract all paths from a template object
+ * @param {object} template - part of the template
+ * @returns {object} - an array of paths
+ */
+function extractPathsFromTemplate(template) {
+    let paths = [];
+    for (let [key, value] of Object.entries(template)) {
+        paths = _.concat(paths, value);
+    }
+    return paths;
+}
+
+/**
  * find the longest common path given an array of paths
- * @param {Array} paths - an array of paths (e.g. go.BP.id)
+ * @param {object} paths - an array of paths (e.g. go.BP.id)
  * @returns - the longest common path(separated by dot)
  */
 function findLongestCommonPath(paths) {
@@ -107,3 +120,4 @@ function removeCommonPathFromTemplate(template, common_path) {
 exports.findLongestCommonPath = findLongestCommonPath;
 exports.transformSimpleObject = transformSimpleObject;
 exports.removeCommonPathFromTemplate = removeCommonPathFromTemplate;
+exports.extractPathsFromTemplate = extractPathsFromTemplate;
