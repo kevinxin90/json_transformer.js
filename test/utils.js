@@ -120,12 +120,50 @@ describe('Tranform a single object', function() {
     })
 })
 
+describe('Tranform an array of single object', function() {
+
+    it('Test simple rename key', function() {
+        let json_doc = [{'ensemblgene': 1017}];
+        let template = {'ensembl': "ensemblgene"};
+        let res = utils.transformArrayOfSimpleObject(json_doc, template);
+        expect(res).to.be.an('array').to.deep.equal([{ensembl: 1017}]);
+    })
+
+    it('Test nested key renaming with single key in template', function() {
+        let json_doc = [{'ensembl': {'gene': 1017}}];
+        let template = {'ensembl': "ensembl.gene"};
+        let res = utils.transformArrayOfSimpleObject(json_doc, template);
+        expect(res).to.be.an('array').to.deep.equal([{ensembl: 1017}]);
+    })
+
+    it('Test nested key renaming with multiple keys in template', function() {
+        let json_doc = [{'ensembl': {'gene': 1017, 'protein': '1018'}}, {'ensembl': {'gene': 1019, 'protein': '1020'}}];
+        let template = {'gene': "ensembl.gene", 'protein': "ensembl.protein"};
+        let res = utils.transformArrayOfSimpleObject(json_doc, template);
+        expect(res).to.be.an('array').to.deep.equal([{gene: 1017, protein: '1018'}, {gene: 1019, protein: '1020'}]);
+    })
+
+    it('return same object if json doc is not array', function() {
+        let json_doc = {'ensembl': {'gene': 1017}, 'protein1': '1018'};
+        let template = {'gene': "ensembl.protein", 'protein': "protein2"};
+        let res = utils.transformArrayOfSimpleObject(json_doc, template);
+        expect(res).to.be.an('object').to.deep.equal(json_doc);
+    })
+})
+
 describe("remove common path from template", function() {
     it("test if common path is null", function() {
         let template = {'gene': 'ensembl.gene', 'variant': 'variant.id'};
         let common_path = null;
         let res = utils.removeCommonPathFromTemplate(template, common_path);
         expect(res).to.be.an('object').to.deep.equal(template);
+    })
+
+    it("test on wikipathways case (the case fails on lodash trimstart)", function() {
+        let template = {'id': 'wikipathways.id', 'name': 'wikipathways.name'};
+        let common_path = 'wikipathways';
+        let res = utils.removeCommonPathFromTemplate(template, common_path);
+        expect(res).to.be.an('object').to.deep.equal({'id': 'id', 'name': 'name'});
     })
 
     it("test if common path is not a string", function() {
@@ -183,5 +221,14 @@ describe("test extract paths from template", () => {
         let res = utils.extractPathsFromTemplate(template);
         expect(res).to.be.an("array").of.length(3).to.include('ensembl.gene.id', 'uniprot.gene', 'ensembl.transcript');
         
+    })
+})
+
+describe("test transform complex object", () => {
+    it("test if all values at same level", () => {
+        let json_doc = {'HGNC': '1771', 'wikipathway': [{'id': "WP123", 'name': 'keud'}, {'id': "WP1234", 'name': 'ke2ud'}]};
+        let template = {'id': 'wikipathway.id', 'name': 'wikipathway.name'};
+        let res = utils.transformComplexObject(json_doc, template);
+        expect(res).to.be.an('array').to.deep.equal([{'id': "WP123", 'name': 'keud'}, {'id': "WP1234", 'name': 'ke2ud'}]);
     })
 })

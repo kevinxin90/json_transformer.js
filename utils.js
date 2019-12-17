@@ -58,7 +58,7 @@ function findLongestCommonPath(paths) {
 }
 
 /**
- * Transform a single JSON object based on the template
+ * Transform a simple JSON object based on the template
  * @param {object} json_doc - the JSON object to be transformed
  * @param {object} template - the template on which the transform is based
  * @returns {object} - the transformed json object
@@ -83,6 +83,49 @@ function transformSimpleObject(json_doc, template) {
 }
 
 /**
+ * Transform an array of simple JSON object based on the template
+ * @param {array} json_doc - the JSON object to be transformed
+ * @param {object} template - the template on which the transform is based
+ * @returns {array} - the transformed json object
+ */
+function transformArrayOfSimpleObject(json_doc, template) {
+    if (_.isArray(json_doc)) {
+        return json_doc.map((_doc) => transformSimpleObject(_doc, template))
+    } else {
+        return json_doc
+    }   
+}
+
+/**
+ * Transform a complex JSON object based on the template
+ * @param {object} json_doc - the JSON object to be transformed
+ * @param {object} template - the template on which the transform is based
+ * @returns {object} - the transformed json object
+ */
+function transformComplexObject(json_doc, template) {
+    let new_doc = {};
+    let trimmed_json_doc;
+    let trimmed_template;
+    let val;
+    let expression;
+    const paths = extractPathsFromTemplate(template);
+    const common_path = findLongestCommonPath(paths);
+    if (common_path) {
+        trimmed_json_doc = jsonata(common_path).evaluate(json_doc);
+        trimmed_template = removeCommonPathFromTemplate(template, common_path);
+    } else {
+        trimmed_json_doc = json_doc;
+        trimmed_template = template;
+    }
+    if (_.isArray(trimmed_json_doc)) {
+        new_doc = transformArrayOfSimpleObject(trimmed_json_doc, trimmed_template)
+    } else {
+        new_doc = transformSimpleObject(trimmed_json_doc, trimmed_template);
+    }
+    return new_doc;
+}
+
+/**
  * Remove common prefix from template
  * @param {object} template - part of the template on which the transform is based
  * @param {string} common_path - the longest common path which all keys in the template share
@@ -98,7 +141,7 @@ function removeCommonPathFromTemplate(template, common_path) {
     for (let [key, value] of Object.entries(template)) {
         if (typeof value === 'string') {
             if (_.startsWith(value, common_path)) {
-                new_template[key] = _.trimStart(value, common_path);
+                new_template[key] = value.substring(common_path.length,);
             } else {
                 new_template[key] = value;
             }
@@ -106,7 +149,7 @@ function removeCommonPathFromTemplate(template, common_path) {
             new_value = [];
             for (let element of value) {
                 if (_.startsWith(element, common_path)) {
-                    new_value.push(_.trimStart(element, common_path));
+                    new_value.push(element.substring(common_path.length,));
                 } else {
                     new_value.push(element);
                 }
@@ -119,5 +162,7 @@ function removeCommonPathFromTemplate(template, common_path) {
 
 exports.findLongestCommonPath = findLongestCommonPath;
 exports.transformSimpleObject = transformSimpleObject;
+exports.transformArrayOfSimpleObject = transformArrayOfSimpleObject;
 exports.removeCommonPathFromTemplate = removeCommonPathFromTemplate;
 exports.extractPathsFromTemplate = extractPathsFromTemplate;
+exports.transformComplexObject = transformComplexObject;
