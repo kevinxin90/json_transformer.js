@@ -67,6 +67,9 @@ function transformSimpleObject(json_doc, template) {
     let new_doc = {};
     let val;
     let expression;
+    if (_.isEmpty(json_doc)) {
+        return new_doc;
+    }
     for (let [key, value] of Object.entries(template)) {
         if (_.isString(value)) {
             expression = jsonata(value);
