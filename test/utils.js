@@ -236,13 +236,13 @@ describe("test transform complex object", () => {
 describe("test extract simple paths", () => {
     it("test if all simple paths are extracted", () => {
         let template = {'gene': 'gene.id', 'variant': ['rsid', 'dbsnp'], 'key1': 'aaa'};
-        let res = utils.extractSimplePaths(template);
-        expect(res).to.be.an('object').to.deep.equal(template);
+        let res = utils.separateSimpleAnComplexPaths(template);
+        expect(res).to.be.an('array').to.deep.equal([template, {}]);
     })
 
     it("test if complex paths are removed", () => {
         let template = {'gene': 'gene.id', 'variant': ['rsid', 'dbsnp'], 'key1': 'aaa', 'drug': {'id': 'drugbani.id', 'name': 'drugbank.name'}};
-        let res = utils.extractSimplePaths(template);
-        expect(res).to.be.an('object').to.deep.equal({'gene': 'gene.id', 'variant': ['rsid', 'dbsnp'], 'key1': 'aaa'});
+        let res = utils.separateSimpleAnComplexPaths(template);
+        expect(res).to.be.an('array').to.deep.equal([{'gene': 'gene.id', 'variant': ['rsid', 'dbsnp'], 'key1': 'aaa'}, {'drug': {'id': 'drugbani.id', 'name': 'drugbank.name'}}]);
     })
 })

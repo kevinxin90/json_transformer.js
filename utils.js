@@ -161,19 +161,22 @@ function removeCommonPathFromTemplate(template, common_path) {
 }
 
 /**
- * extract simple paths from template
+ * distinguish simple paths and complex paths from template
  * @param {object} template - the template which transformation is based on
  */
-function extractSimplePaths(template) {
-    let new_template = {}
+function separateSimpleAnComplexPaths(template) {
+    let simple_path_template = {};
+    let complex_path_template = {};
     for (let [key, value] of Object.entries(template)) {
         if (_.isString(value)) {
-            new_template[key] = value;
+            simple_path_template[key] = value;
         } else if (_.isArray(value) && _.isString(value[0])) {
-            new_template[key] = value;
+            simple_path_template[key] = value;
+        } else {
+            complex_path_template[key] = value;
         }
     }
-    return new_template;
+    return [simple_path_template, complex_path_template];
 }
 
 exports.findLongestCommonPath = findLongestCommonPath;
@@ -182,4 +185,4 @@ exports.transformArrayOfSimpleObject = transformArrayOfSimpleObject;
 exports.removeCommonPathFromTemplate = removeCommonPathFromTemplate;
 exports.extractPathsFromTemplate = extractPathsFromTemplate;
 exports.transformComplexObject = transformComplexObject;
-exports.extractSimplePaths = extractSimplePaths;
+exports.separateSimpleAnComplexPaths = separateSimpleAnComplexPaths;
