@@ -160,9 +160,26 @@ function removeCommonPathFromTemplate(template, common_path) {
     return new_template;
 }
 
+/**
+ * extract simple paths from template
+ * @param {object} template - the template which transformation is based on
+ */
+function extractSimplePaths(template) {
+    let new_template = {}
+    for (let [key, value] of Object.entries(template)) {
+        if (_.isString(value)) {
+            new_template[key] = value;
+        } else if (_.isArray(value) && _.isString(value[0])) {
+            new_template[key] = value;
+        }
+    }
+    return new_template;
+}
+
 exports.findLongestCommonPath = findLongestCommonPath;
 exports.transformSimpleObject = transformSimpleObject;
 exports.transformArrayOfSimpleObject = transformArrayOfSimpleObject;
 exports.removeCommonPathFromTemplate = removeCommonPathFromTemplate;
 exports.extractPathsFromTemplate = extractPathsFromTemplate;
 exports.transformComplexObject = transformComplexObject;
+exports.extractSimplePaths = extractSimplePaths;
