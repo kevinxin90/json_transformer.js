@@ -5,7 +5,6 @@ const _ = require("lodash");
 function transform(json_doc, template){
     let transformed_json_doc;
     [simple_template, complex_template] = utils.separateSimpleAnComplexPaths(template);
-    console.log(simple_template, complex_template);
     transformed_json_doc = utils.transformSimpleObject(json_doc, simple_template);
     for (let [key, value] of Object.entries(complex_template)) {
         if (_.isArray(value)) {
