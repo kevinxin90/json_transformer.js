@@ -92,8 +92,6 @@ function transformComplexObject(json_doc, template) {
     let new_doc = {};
     let trimmed_json_doc;
     let trimmed_template;
-    let val;
-    let expression;
     const paths = extractPathsFromTemplate(template);
     const common_path = findLongestCommonPath(paths);
     if (common_path) {
