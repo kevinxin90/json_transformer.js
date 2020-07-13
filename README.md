@@ -1,8 +1,8 @@
-<h1 align="center">Welcome to @biothings-explorer/json-transformer 👋</h1>
 [![Build Status](https://travis-ci.com/kevinxin90/json_transformer.js.svg?branch=master)](https://travis-ci.com/kevinxin90/json_transformer.js)
 [![Coverage Status](https://coveralls.io/repos/github/kevinxin90/json_transformer.js/badge.svg?branch=master)](https://coveralls.io/github/kevinxin90/json_transformer.js?branch=master)
 
-# json_transformer.js
+# Welcome to @biothings-explorer/json-transformer 👋
+
 A nodejs module to transform JSON output based on template
 
 ### 🏠 [Homepage](https://github.com/kevinxin90/json_transformer.js)
@@ -35,7 +35,11 @@ npm i @biothings-explorer/json-transformer
   - Transform Nested JSON Object
 
     ```javascript
-    let json_doc = {'ensembl': {'gene': 1017}};
+    let json_doc = {
+        'ensembl': {
+            'gene': 1017
+        }
+    };
     let template = {'ensembl': 'ensembl.gene'};
     transform(json_doc, template); // returns {'ensembl': 1017}
     ```
@@ -43,8 +47,28 @@ npm i @biothings-explorer/json-transformer
   - Nested Template
 
     ```javascript
-    let json_doc = {'ensembl': {'gene': 1017}, 'wikipathway': [{'id': 'WP123', 'name': 'aaa'}, {'id': 'WP1234', 'name': 'aaaa'}]};
-    let template = {'ensembl': 'ensembl.gene', 'pathway': {'id': 'wikipathway.id', 'name': 'wikipathway.name'}};
+    let json_doc = {
+        'ensembl': {
+            'gene': 1017
+        },
+        'wikipathway': [
+            {
+                'id': 'WP123',
+                'name': 'aaa'
+            },
+            {
+                'id': 'WP1234',
+                'name': 'aaaa'
+            }
+        ]
+    };
+    let template = {
+        'ensembl': 'ensembl.gene',
+        'pathway': {
+            'id': 'wikipathway.id',
+            'name': 'wikipathway.name'
+        }
+    };
     let res = transform(json_doc, template); //returns {'ensembl': 1017, 'pathway': [{'id': 'WP123', 'name': 'aaa'}, {'id': 'WP1234', 'name': 'aaaa'}]}
     ```
 
