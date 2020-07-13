@@ -95,9 +95,7 @@ function transformComplexObject(json_doc, template) {
     let val;
     let expression;
     const paths = extractPathsFromTemplate(template);
-    console.log('paths', paths);
     const common_path = findLongestCommonPath(paths);
-    console.log('common path', common_path)
     if (common_path) {
         trimmed_json_doc = jsonata(common_path).evaluate(json_doc);
         trimmed_template = removeCommonPathFromTemplate(template, common_path);
@@ -105,7 +103,6 @@ function transformComplexObject(json_doc, template) {
         trimmed_json_doc = json_doc;
         trimmed_template = template;
     }
-    console.log('trimmed', trimmed_json_doc)
     if (_.isArray(trimmed_json_doc)) {
         new_doc = transformArrayOfSimpleObject(trimmed_json_doc, trimmed_template)
     } else {
