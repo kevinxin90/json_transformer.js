@@ -2,7 +2,7 @@ const utils = require('./utils');
 const _ = require("lodash");
 
 
-function transform(json_doc, template){
+function transform(json_doc, template) {
     let transformed_json_doc;
     [simple_template, complex_template] = utils.separateSimpleAnComplexPaths(template);
     transformed_json_doc = utils.transformSimpleObject(json_doc, simple_template);
