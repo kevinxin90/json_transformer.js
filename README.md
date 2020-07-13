@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.com/kevinxin90/json_transformer.js.svg?branch=master)](https://travis-ci.com/kevinxin90/json_transformer.js)
 [![Coverage Status](https://coveralls.io/repos/github/kevinxin90/json_transformer.js/badge.svg?branch=master)](https://coveralls.io/github/kevinxin90/json_transformer.js?branch=master)
+[![Documentation](https://github.com/kevinxin90/smartapi-kg.js#readme)](https://img.shields.io/badge/documentation-yes-brightgreen.svg")
 
 # Welcome to @biothings-explorer/json-transformer 👋
 
