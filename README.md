@@ -3,6 +3,9 @@
 <a href="https://github.com/kevinxin90/smartapi-kg.js#readme" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
+<a href="https://www.npmjs.com/package/@biothings-explorer/json-transformer" target="_blank">
+    <img alt="Version" src="https://img.shields.io/npm/v/@biothings-explorer/json-transformer.svg">
+  </a>
 
 # Welcome to @biothings-explorer/json-transformer 👋
 
