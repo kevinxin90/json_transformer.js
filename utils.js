@@ -79,7 +79,7 @@ function transformSimpleObject(json_doc, template) {
         }
         val = val.filter(item => !(_.isUndefined(item)));
         if (_.isEmpty(val)) continue;
-        if(val.length === 1) val = val[0];
+        if (val.length === 1) val = val[0];
         new_doc[key] = val;
     }
     return new_doc;
@@ -96,7 +96,7 @@ function transformArrayOfSimpleObject(json_doc, template) {
         return json_doc.map((_doc) => transformSimpleObject(_doc, template))
     } else {
         return json_doc
-    }   
+    }
 }
 
 /**
@@ -112,7 +112,9 @@ function transformComplexObject(json_doc, template) {
     let val;
     let expression;
     const paths = extractPathsFromTemplate(template);
+    console.log('paths', paths);
     const common_path = findLongestCommonPath(paths);
+    console.log('common path', common_path)
     if (common_path) {
         trimmed_json_doc = jsonata(common_path).evaluate(json_doc);
         trimmed_template = removeCommonPathFromTemplate(template, common_path);
@@ -120,6 +122,7 @@ function transformComplexObject(json_doc, template) {
         trimmed_json_doc = json_doc;
         trimmed_template = template;
     }
+    console.log('trimmed', trimmed_json_doc)
     if (_.isArray(trimmed_json_doc)) {
         new_doc = transformArrayOfSimpleObject(trimmed_json_doc, trimmed_template)
     } else {
@@ -158,7 +161,7 @@ function removeCommonPathFromTemplate(template, common_path) {
                 }
             }
             new_template[key] = new_value;
-        }      
+        }
     }
     return new_template;
 }
