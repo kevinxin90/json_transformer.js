@@ -94,6 +94,9 @@ function transformComplexObject(json_doc, template) {
     let trimmed_template;
     const paths = extractPathsFromTemplate(template);
     const common_path = findLongestCommonPath(paths);
+    if (paths.length === 1 && paths[0] === common_path) {
+        return transformSimpleObject(json_doc, template)
+    }
     if (common_path) {
         trimmed_json_doc = jsonata(common_path).evaluate(json_doc);
         trimmed_template = removeCommonPathFromTemplate(template, common_path);
